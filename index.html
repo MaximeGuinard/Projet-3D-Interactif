@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAXIME - Luxury Perfume</title>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <style>
+        body { margin: 0; }
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: gold;
+            font-family: 'Arial', sans-serif;
+            font-size: 2em;
+            z-index: 9999;
+            transition: opacity 1s;
+        }
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .vr-notice {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Arial', sans-serif;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">MAXIME PARFUMS</div>
+    <div class="vr-notice">Utilisez votre souris pour explorer en 360°</div>
+
+    <a-scene 
+        loading-screen="dotsColor: gold; backgroundColor: black"
+        renderer="antialias: true; physicallyCorrectLights: true; colorManagement: true; exposure: 1.2; toneMapping: reinhard"
+        shadow="type: pcfsoft">
+        
+        <!-- Environment -->
+        <a-assets>
+            <img id="marble" src="https://images.unsplash.com/photo-1586170668447-b76217d7afae?q=80&w=4096&auto=format&fit=crop" />
+            <img id="environment" src="https://images.unsplash.com/photo-1527066579998-dbbae57f45ce?q=80&w=4096&auto=format&fit=crop" />
+            <!-- Modèle 3D de luxe -->
+            <a-asset-item id="luxury-table" src="https://cdn.aframe.io/examples/models/table.gltf"></a-asset-item>
+        </a-assets>
+
+        <!-- Environnement 360° haute qualité -->
+        <a-sky src="#environment" rotation="0 -90 0"></a-sky>
+
+        <!-- Sol en marbre -->
+        <a-plane 
+            position="0 0 0" 
+            rotation="-90 0 0" 
+            width="30" 
+            height="30" 
+            src="#marble"
+            material="roughness: 0.1; metalness: 0.8; repeat: 4 4"
+            shadow="receive: true">
+        </a-plane>
+
+        <!-- Éclairage sophistiqué -->
+        <a-light type="ambient" color="#ffffff" intensity="0.3"></a-light>
+        <a-light type="directional" color="#fffae6" intensity="0.8" position="-1 1 1" cast-shadow="true"></a-light>
+        <a-light type="spot" color="#ffebcd" intensity="1.2" position="0 5 0" angle="45" penumbra="0.4" cast-shadow="true"></a-light>
+        <a-light type="point" color="#ffd700" intensity="0.5" position="3 2 -3"></a-light>
+
+        <!-- Table de luxe -->
+        <a-entity 
+            gltf-model="#luxury-table"
+            position="0 0 -3"
+            scale="2 2 2"
+            shadow="cast: true">
+        </a-entity>
+
+        <!-- Flacon de parfum -->
+        <a-entity position="0 1.5 -3">
+            <!-- Base du flacon -->
+            <a-cylinder 
+                position="0 0 0" 
+                radius="0.3" 
+                height="0.8" 
+                material="color: #000000; metalness: 0.95; roughness: 0.05; envMap: #environment"
+                shadow="cast: true">
+                <a-animation 
+                    attribute="rotation" 
+                    dur="15000" 
+                    to="0 360 0" 
+                    repeat="indefinite" 
+                    easing="linear">
+                </a-animation>
+            </a-cylinder>
+
+            <!-- Col du flacon -->
+            <a-cylinder 
+                position="0 0.6 0" 
+                radius="0.1" 
+                height="0.4" 
+                material="color: #000000; metalness: 0.95; roughness: 0.05; envMap: #environment"
+                shadow="cast: true">
+            </a-cylinder>
+
+            <!-- Bouchon -->
+            <a-box 
+                position="0 1 0" 
+                width="0.3" 
+                height="0.4" 
+                depth="0.3" 
+                material="color: #ffd700; metalness: 0.9; roughness: 0.1; envMap: #environment"
+                shadow="cast: true">
+            </a-box>
+
+            <!-- Effets de réflexion -->
+            <a-sphere
+                position="0.15 0.3 0.2"
+                radius="0.05"
+                material="shader: standard; opacity: 0.3; transparent: true; color: #ffffff">
+            </a-sphere>
+        </a-entity>
+
+        <!-- Nom de la marque -->
+        <a-text 
+            value="MAXIME" 
+            position="-1 3 -3" 
+            color="#ffd700" 
+            scale="2 2 2" 
+            font="https://cdn.aframe.io/fonts/Luxurious-Roman-msdf.json"
+            material="metalness: 0.8; roughness: 0.2; envMap: #environment">
+            <a-animation 
+                attribute="position" 
+                dur="4000" 
+                direction="alternate" 
+                to="-1 3.1 -3" 
+                repeat="indefinite" 
+                easing="ease-in-out">
+            </a-animation>
+        </a-text>
+
+        <!-- Signature -->
+        <a-text 
+            value="L'ESSENCE DU LUXE" 
+            position="-1.2 2.5 -3" 
+            color="#ffffff" 
+            scale="1 1 1"
+            material="metalness: 0.6; roughness: 0.4">
+        </a-text>
+
+        <!-- Particules dorées -->
+        <a-entity position="0 2.5 -3">
+            <a-sphere 
+                radius="0.02" 
+                material="shader: standard; color: #ffd700; emissive: #ffd700; emissiveIntensity: 0.8; metalness: 1; roughness: 0.1"
+                animation="property: position; to: 0.5 3 -3.5; dur: 2000; loop: true; dir: alternate">
+            </a-sphere>
+            <a-sphere 
+                radius="0.02" 
+                material="shader: standard; color: #ffd700; emissive: #ffd700; emissiveIntensity: 0.8; metalness: 1; roughness: 0.1"
+                animation="property: position; to: -0.5 3.5 -2.5; dur: 2500; loop: true; dir: alternate">
+            </a-sphere>
+            <a-sphere 
+                radius="0.02" 
+                material="shader: standard; color: #ffd700; emissive: #ffd700; emissiveIntensity: 0.8; metalness: 1; roughness: 0.1"
+                animation="property: position; to: 0.3 2.8 -3.2; dur: 3000; loop: true; dir: alternate">
+            </a-sphere>
+        </a-entity>
+
+        <!-- Effets volumétriques -->
+        <a-entity position="0 1.5 -3">
+            <a-cylinder
+                position="0 0 0"
+                radius="0.4"
+                height="3"
+                material="shader: standard; opacity: 0.1; transparent: true; color: #ffd700"
+                animation="property: rotation; to: 0 360 0; dur: 10000; loop: true; easing: linear">
+            </a-cylinder>
+        </a-entity>
+
+        <!-- Caméra avec contrôles optimisés -->
+        <a-entity position="0 1.6 0">
+            <a-camera 
+                look-controls="reverseMouseDrag: false" 
+                wasd-controls="acceleration: 65"
+                position="0 0 3">
+                <a-cursor color="#ffd700"></a-cursor>
+            </a-camera>
+        </a-entity>
+    </a-scene>
+
+    <script>
+        // Gestionnaire d'écran de chargement
+        window.addEventListener('load', () => {
+            const loading = document.querySelector('.loading');
+            setTimeout(() => {
+                loading.classList.add('hidden');
+            }, 2000);
+
+            // Cache la notice VR après 5 secondes
+            setTimeout(() => {
+                document.querySelector('.vr-notice').style.opacity = '0';
+            }, 5000);
+        });
+
+        // Optimisation des performances
+        const scene = document.querySelector('a-scene');
+        scene.addEventListener('loaded', () => {
+            scene.renderer.gammaOutput = true;
+            scene.renderer.gammaFactor = 2.2;
+            scene.renderer.physicallyCorrectLights = true;
+        });
+    </script>
+</body>
+</html>

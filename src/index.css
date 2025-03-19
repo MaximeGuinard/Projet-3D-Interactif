@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+.a-enter-vr {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Custom Loader */
+.a-loader-title {
+  color: #gold;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
